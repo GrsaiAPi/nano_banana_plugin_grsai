@@ -94,3 +94,4 @@ https://grsai.ai/dashboard/help
 - [GrsaiAPI控制台](https://grsai.ai/dashboard)
 - [GrsaiAPI APikey](https://grsai.ai/dashboard/api-keys)
 - [问题反馈与技术支持](https://grsai.com/zh/dashboard/help)
+- [字字动画](https://github.com/TypeTale/TypeTale)
