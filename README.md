@@ -90,7 +90,7 @@ https://grsai.ai/dashboard/help
 
 ## 🔗 相关链接
 
-- [GrsaiAPI 官方网站]（https://grsai.ai）
+- [GrsaiAPI 官方网站](https://grsai.ai)
 - [GrsaiAPI控制台](https://grsai.ai/dashboard)
 - [GrsaiAPI APikey](https://grsai.ai/dashboard/api-keys)
 - [问题反馈与技术支持](https://grsai.com/zh/dashboard/help)
