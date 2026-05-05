@@ -12,6 +12,8 @@
 - ❌ 使用 Gemini 流式格式，兼容性差
 - ❌ 超时时间过短，任务未完成即报错
 
+以上问题可能是由于**字字动画版本过旧，或者是插件代码导致**，所以请需要用GrsaiApi插件的用户**1.升级字字动画；2.更新最新插件。**
+
 ## ✅ 官方版本改进
 
 本插件为 GrsaiAPI 官方接手维护的全新版本，更名为`Nano Banana 中转插件-Grsai（官方）`已全面优化：
@@ -55,22 +57,39 @@
 
 ## 📥 安装方法
 
-1. **关闭字字动画软件**
+1. **升级字字动画软件**
+
+请在[字字动画](https://wcnzyhmsp2tw.feishu.cn/wiki/FwqMwdBgni0aKDkxY6rcEdaWnjc)下载最新软件主体
+<img width="793" height="232" alt="image" src="https://github.com/user-attachments/assets/f9ce06db-8ada-4011-8d62-4ea9ff44a544" />
+
 
 2. **找到插件安装目录**
-以我的参考：D:\软件\字字动画_internal\plugins\image_plugins
+以我的参考：D:\软件\字字动画_8_0_91\_internal\plugins\image_plugins
+<img width="737" height="310" alt="image" src="https://github.com/user-attachments/assets/310fc47c-b65f-4610-8612-0260cabf15f8" />
+
    
-3. **删除旧版插件文件夹**
-删除该目录下的 nano_banana_plugin_grsai 文件夹
+4. **删除旧版插件文件夹**
 
-4. **放入新版插件**
-- 将下载的 `nano_banana_plugin_grsai` 文件夹复制到上述目录
+删除该目录下的 nano_banana_plugin_grsai文件夹，新用户没有Grsai插件则进入下一步，放入新版插件
 
-5. **重启字字动画软件**
+5. **放入新版插件**
+将下载的 `nano_banana_plugin_grsai` 文件夹复制到上述目录 
+
+
+6. **重启字字动画软件**
+- 创建新作品
+<img width="1600" height="960" alt="image" src="https://github.com/user-attachments/assets/744d0248-b3e5-4c14-a807-7bd4ff8f1045" />
+
+- 右侧点击图片模型管理器，点击自定义插件，选择刚才导入的GrsaiApi最新插件
+<img width="1600" height="960" alt="image" src="https://github.com/user-attachments/assets/b01a3d35-e8a5-49b5-98e9-5e805eca06f6" />
+
+- 配置Apikey即可使用
+<img width="1600" height="960" alt="image" src="https://github.com/user-attachments/assets/b4fc6510-e868-4b17-acd5-384612ecc25d" />
+
 
 ## 🔄 更新建议
 
-**强烈建议所有使用旧版非官方插件的用户更新至此官方版本**，以获得稳定的使用体验和持续的维护支持。
+**强烈建议所有使用旧版字字动画和非官方插件的用户进行更新**，以获得稳定的使用体验和持续的维护支持。
 
 ## 📞 反馈与支持
 
@@ -94,4 +113,4 @@ https://grsai.ai/dashboard/help
 - [GrsaiAPI控制台](https://grsai.ai/dashboard)
 - [GrsaiAPI APikey](https://grsai.ai/dashboard/api-keys)
 - [问题反馈与技术支持](https://grsai.com/zh/dashboard/help)
-- [字字动画](https://github.com/TypeTale/TypeTale)
+- [字字动画软件使用教程](https://wcnzyhmsp2tw.feishu.cn/wiki/FwqMwdBgni0aKDkxY6rcEdaWnjc)
