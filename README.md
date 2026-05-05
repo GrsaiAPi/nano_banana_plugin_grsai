@@ -57,26 +57,27 @@
 
 ## 📥 安装方法
 
-1. **升级字字动画软件**
+### 1. **升级字字动画软件**
 
 请在[字字动画](https://wcnzyhmsp2tw.feishu.cn/wiki/FwqMwdBgni0aKDkxY6rcEdaWnjc)下载最新软件主体
 <img width="793" height="232" alt="image" src="https://github.com/user-attachments/assets/f9ce06db-8ada-4011-8d62-4ea9ff44a544" />
 
 
-2. **找到插件安装目录**
+### 2. **找到插件安装目录**
+
 以我的参考：D:\软件\字字动画_8_0_91\_internal\plugins\image_plugins
 <img width="737" height="310" alt="image" src="https://github.com/user-attachments/assets/310fc47c-b65f-4610-8612-0260cabf15f8" />
 
    
-4. **删除旧版插件文件夹**
+### 4. **删除旧版插件文件夹**
 
 删除该目录下的 nano_banana_plugin_grsai文件夹，新用户没有Grsai插件则进入下一步，放入新版插件
 
-5. **放入新版插件**
+### 5. **放入新版插件**
 将下载的 `nano_banana_plugin_grsai` 文件夹复制到上述目录 
 
 
-6. **重启字字动画软件**
+### 6. **重启字字动画软件**
 - 创建新作品
 <img width="1600" height="960" alt="image" src="https://github.com/user-attachments/assets/744d0248-b3e5-4c14-a807-7bd4ff8f1045" />
 
@@ -109,8 +110,8 @@ https://grsai.ai/dashboard/help
 
 ## 🔗 相关链接
 
-- [GrsaiAPI 官方网站](https://grsai.ai)
-- [GrsaiAPI控制台](https://grsai.ai/dashboard)
-- [GrsaiAPI APikey](https://grsai.ai/dashboard/api-keys)
-- [问题反馈与技术支持](https://grsai.com/zh/dashboard/help)
-- [字字动画软件使用教程](https://wcnzyhmsp2tw.feishu.cn/wiki/FwqMwdBgni0aKDkxY6rcEdaWnjc)
+- [GrsaiAPI 官方网站](https://grsai.ai)：https://grsai.ai
+- [GrsaiAPI控制台](https://grsai.ai/dashboard)：https://grsai.ai/dashboard
+- [GrsaiAPI APikey](https://grsai.ai/dashboard/api-keys)：https://grsai.ai/dashboard/api-keys
+- [问题反馈与技术支持](https://grsai.com/zh/dashboard/help)：https://grsai.com/zh/dashboard/help
+- [字字动画软件使用教程](https://wcnzyhmsp2tw.feishu.cn/wiki/FwqMwdBgni0aKDkxY6rcEdaWnjc)：https://wcnzyhmsp2tw.feishu.cn/wiki/FwqMwdBgni0aKDkxY6rcEdaWnjc
