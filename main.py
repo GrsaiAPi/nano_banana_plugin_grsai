@@ -49,8 +49,8 @@ _default_params = {
     "api_key": "",
     "endpoint": "https://grsai.dakka.com.cn",
     "model": "nano-banana-fast",
-    "request_timeout": 500,
-    "download_timeout": 500,
+    "request_timeout": 700,
+    "download_timeout": 700,
     "retry_count": 3,
     # 新增下面两行
     "aspect_ratio": "auto",
@@ -88,9 +88,8 @@ def get_info():
     """返回插件信息"""
     return {
         "name": "Nano Banana 中转插件 - Grsai(官方)",
-        "description": "通过Grsai API（https://grsai.ai）调用 nano-banana 系列及 gpt-image-2 等多种图像生成模型，支持分辨率和尺寸选择。\n"
-        "注意：Grsai未与该平台达成合作，不对该平台的功能及安全性负责，模型使用问题可通过官网联系在线客服解决。\n本插件为 GrsaiAPI 官方二次修改版，原作者非 GrsaiAPI。因联系不上原作者且用户需求较高，后续将由我们维护与改进。",
-        "version": "2.0.0",
+        "description": "通过Grsai API（https://grsai.ai）调用 nano-banana 系列及 gpt-image-2 等多种图像生成模型，支持分辨率和尺寸选择。注意：Grsai未与该平台达成合作，模型使用问题可通过Grsai官网联系在线客服解决。使用该平台时建议和Grsai控制台日志结合查看，平台如果未能成功下载图片可通过查看日志中的结果数据获取，图片有效期两小时。",
+        "version": "2.0.1",
         "author": "GrsaiAPI",
     }
 
@@ -240,9 +239,8 @@ class PluginUI:
             self.widgets["aspect_ratio"].clear()
 
             # 判断模型类型
-            is_gpt_image = (
-                model_text.startswith("gpt-image-2") or model_text == "gpt-image-2"
-            )
+            is_gpt_image = model_text == "gpt-image-2"
+            is_gpt_image_vip = model_text == "gpt-image-2-vip"
             is_nano_banana_2 = model_text in [
                 "nano-banana-2",
                 "nano-banana-2-cl",
@@ -252,21 +250,52 @@ class PluginUI:
             if is_gpt_image:
                 options = [
                     "auto",
-                    "1:1",
-                    "3:2",
-                    "2:3",
-                    "16:9",
-                    "9:16",
-                    "5:4",
-                    "4:5",
-                    "4:3",
-                    "3:4",
-                    "21:9",
-                    "9:21",
-                    "1:3",
-                    "3:1",
-                    "2:1",
-                    "1:2",
+                    "1024x1024",
+                    "1536x1024",
+                    "1024x1536",
+                    "1448x1086",
+                    "1086x1448",
+                    "1774x887",
+                    "887x1774",
+                ]
+                self.image_size_label.hide()
+                self.widgets["image_size"].hide()
+            elif is_gpt_image_vip:
+                options = [
+                    "auto",
+                    "1024x1024",
+                    "2048x2048",
+                    "2880x2880",
+                    "1536x1024",
+                    "2048x1360",
+                    "3504x2336",
+                    "1024x1536",
+                    "1360x2048",
+                    "2336x3504",
+                    "1448x1086",
+                    "2048x1632",
+                    "3200x2560",
+                    "1086x1448",
+                    "1632x2048",
+                    "2560x3200",
+                    "1774x887",
+                    "2048x1152",
+                    "3840x2160",
+                    "887x1774",
+                    "1152x2048",
+                    "2160x3840",
+                    "2048x880",
+                    "3840x1648",
+                    "880x2048",
+                    "1648x3840",
+                    "688x2048",
+                    "1280x3840",
+                    "2048x688",
+                    "3840x1280",
+                    "2048x1024",
+                    "3840x1920",
+                    "1024x2048",
+                    "1920x3840",
                 ]
                 self.image_size_label.hide()
                 self.widgets["image_size"].hide()
@@ -352,6 +381,12 @@ class PluginUI:
                 default_size = (
                     "2K" if ("pro" in model_lower or "2" in model_lower) else "1K"
                 )
+            elif "gpt-image-2-vip" in model_lower:
+                self.widgets["image_size"].addItems(["1K", "2K", "4K"])
+                default_size = "1K"
+            elif "gpt-image-2" in model_lower:
+                self.widgets["image_size"].addItems(["1K"])
+                default_size = "1K"
             else:
                 self.widgets["image_size"].addItems(["1K"])
                 default_size = "1K"
@@ -400,7 +435,7 @@ class PluginUI:
         self.widgets["request_timeout"].setMinimum(100)
         self.widgets["request_timeout"].setMaximum(999999)
         self.widgets["request_timeout"].setValue(
-            _global_params.get("request_timeout", 500)
+            _global_params.get("request_timeout", 700)
         )
         self.widgets["request_timeout"].setFont(QFont("Microsoft YaHei", 9))
         self.widgets["request_timeout"].setFixedHeight(32)
@@ -437,7 +472,7 @@ class PluginUI:
         self.widgets["download_timeout"].setMinimum(50)
         self.widgets["download_timeout"].setMaximum(999999)
         self.widgets["download_timeout"].setValue(
-            _global_params.get("download_timeout", 500)
+            _global_params.get("download_timeout", 700)
         )
         self.widgets["download_timeout"].setFont(QFont("Microsoft YaHei", 9))
         self.widgets["download_timeout"].setFixedHeight(32)
@@ -503,7 +538,7 @@ class PluginUI:
         info_label = QLabel(
             '<b>提示:通过<a href="https://grsai.ai">Grsai API</a> 调用 Gemini/Openai 系列模型(支持 nano-banana 图像生成模型)，支持参考图片，分辨率，尺寸</b><br>'
         )
-        info_label.setFont(QFont("Microsoft YaHei", 8))
+        info_label.setFont(QFont("Microsoft YaHei", 10))
         info_label.setStyleSheet("color: #99999999;")
         info_label.setWordWrap(True)
         info_label.setOpenExternalLinks(True)  # 允许点击跳转链接
@@ -590,8 +625,8 @@ def send_grsai_draw_request(
     reference_images,
     aspect_ratio="auto",
     image_size="1K",
-    request_timeout=500,
-    download_timeout=500,
+    request_timeout=700,
+    download_timeout=700,
 ):
     """
     Grsai 专用绘画接口（支持 nano-banana 系列 和 gpt-image-2）
@@ -619,13 +654,16 @@ def send_grsai_draw_request(
     if model == "gpt-image-2" or model.startswith("gpt-image-2"):
         api_path = "/v1/draw/completions"
         payload = {
-            "model": "gpt-image-2",
+            "model": model,
             "prompt": prompt,
             "urls": urls,
             "aspectRatio": aspect_ratio,  # 只传 aspectRatio
             "shutProgress": True,
             # 不要传 size、imageSize 等参数
         }
+        if model == "gpt-image-2-vip":
+            payload["imageSize"] = image_size
+            print(f"[DEBUG] 传入 imageSize: {image_size}")
     else:
         # Nano Banana 系列
         api_path = "/v1/draw/nano-banana"
@@ -756,10 +794,10 @@ def generate(context):
     )
 
     request_timeout = (
-        int(plugin_params.get("request_timeout", 500)) if plugin_params else 500
+        int(plugin_params.get("request_timeout", 700)) if plugin_params else 700
     )
     download_timeout = (
-        int(plugin_params.get("download_timeout", 500)) if plugin_params else 500
+        int(plugin_params.get("download_timeout", 700)) if plugin_params else 700
     )
     retry_count = int(plugin_params.get("retry_count", 3)) if plugin_params else 3
 
@@ -828,8 +866,8 @@ def generate(context):
                 reference_images=reference_images,
                 aspect_ratio=aspect_ratio,
                 image_size=image_size,
-                request_timeout=500,
-                download_timeout=500,
+                request_timeout=700,
+                download_timeout=700,
             )
 
             # 解码并保存图片
