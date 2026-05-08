@@ -652,6 +652,9 @@ def send_grsai_draw_request(
 
     # 根据模型选择接口和 payload
     if model == "gpt-image-2" or model.startswith("gpt-image-2"):
+        if ":" in aspect_ratio:
+            aspect_ratio = "auto"
+
         api_path = "/v1/draw/completions"
         payload = {
             "model": model,
@@ -661,10 +664,10 @@ def send_grsai_draw_request(
             "shutProgress": True,
             # 不要传 size、imageSize 等参数
         }
-        if model == "gpt-image-2-vip":
-            payload["imageSize"] = image_size
-            print(f"[DEBUG] 传入 imageSize: {image_size}")
     else:
+        if "x" in aspect_ratio:
+            aspect_ratio = "auto"
+
         # Nano Banana 系列
         api_path = "/v1/draw/nano-banana"
         payload = {
