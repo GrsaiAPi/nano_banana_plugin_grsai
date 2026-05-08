@@ -89,7 +89,7 @@ def get_info():
     return {
         "name": "Nano Banana 中转插件 - Grsai(官方)",
         "description": "通过Grsai API（https://grsai.ai）调用 nano-banana 系列及 gpt-image-2 等多种图像生成模型，支持分辨率和尺寸选择。注意：Grsai未与该平台达成合作，模型使用问题可通过Grsai官网联系在线客服解决。使用该平台时建议和Grsai控制台日志结合查看，平台如果未能成功下载图片可通过查看日志中的结果数据获取，图片有效期两小时。",
-        "version": "2.0.1",
+        "version": "2.0.2",
         "author": "GrsaiAPI",
     }
 
