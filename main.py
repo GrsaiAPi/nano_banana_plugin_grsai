@@ -250,52 +250,44 @@ class PluginUI:
             if is_gpt_image:
                 options = [
                     "auto",
-                    "1024x1024",
-                    "1536x1024",
-                    "1024x1536",
-                    "1448x1086",
-                    "1086x1448",
-                    "1774x887",
-                    "887x1774",
+                    "1024x1024(1:1, 1K)",
+                    "1774x887(16:9, 1K)",
+                    "887x1774(9:16, 1K)",
+                    "1536x1024(3:2, 1K)",
+                    "1024x1536(2:3, 1K)",
                 ]
                 self.image_size_label.hide()
                 self.widgets["image_size"].hide()
             elif is_gpt_image_vip:
                 options = [
                     "auto",
-                    "1024x1024",
-                    "2048x2048",
-                    "2880x2880",
-                    "1536x1024",
-                    "2048x1360",
-                    "3504x2336",
-                    "1024x1536",
-                    "1360x2048",
-                    "2336x3504",
-                    "1448x1086",
-                    "2048x1632",
-                    "3200x2560",
-                    "1086x1448",
-                    "1632x2048",
-                    "2560x3200",
-                    "1774x887",
-                    "2048x1152",
-                    "3840x2160",
-                    "887x1774",
-                    "1152x2048",
-                    "2160x3840",
-                    "2048x880",
-                    "3840x1648",
-                    "880x2048",
-                    "1648x3840",
-                    "688x2048",
-                    "1280x3840",
-                    "2048x688",
-                    "3840x1280",
-                    "2048x1024",
-                    "3840x1920",
-                    "1024x2048",
-                    "1920x3840",
+                    "1024x1024(1:1, 1K)",
+                    "2048x2048(1:1, 2K)",
+                    "2880x2880(1:1, 4K)",
+                    "1774x887(16:9, 1K)",
+                    "2048x1152(16:9, 2K)",
+                    "3840x2160(16:9, 4K)",
+                    "887x1774(9:16, 1K)",
+                    "1152x2048(9:16, 2K)",
+                    "2160x3840(9:16, 4K)",
+                    "1536x1024(3:2, 1K)",
+                    "2048x1360(3:2, 2K)",
+                    "3504x2336(3:2, 4K)",
+                    "1024x1536(2:3, 1K)",
+                    "1360x2048(2:3, 2K)",
+                    "2336x3504(2:3, 4K)",
+                    "2048x880(21:9, 2K)",
+                    "3840x1648(21:9, 4K)",
+                    "880x2048(9:21, 2K)",
+                    "1648x3840(9:21, 4K)",
+                    "688x2048(1:3, 2K)",
+                    "1280x3840(1:3, 4K)",
+                    "2048x688(3:1, 2K)",
+                    "3840x1280(3:1, 4K)",
+                    "2048x1024(2:1, 2K)",
+                    "3840x1920(2:1, 4K)",
+                    "1024x2048(1:2, 2K)",
+                    "1920x3840(1:2, 4K)",
                 ]
                 self.image_size_label.hide()
                 self.widgets["image_size"].hide()
@@ -367,46 +359,52 @@ class PluginUI:
             )
 
             # === 2. 处理分辨率 image_size ===
-            self.widgets["image_size"].clear()
-            model_lower = model_text.lower().strip()
-
-            if model_lower in ["nano-banana-2-cl", "nano-banana-pro-vip"]:
-                self.widgets["image_size"].addItems(["1K", "2K"])
-                default_size = "1K"
-            elif model_lower in ["nano-banana-2-4k-cl", "nano-banana-pro-4k-vip"]:
-                self.widgets["image_size"].addItems(["4K"])
-                default_size = "4K"
-            elif "nano-banana" in model_lower:
-                self.widgets["image_size"].addItems(["1K", "2K", "4K"])
-                default_size = (
-                    "2K" if ("pro" in model_lower or "2" in model_lower) else "1K"
-                )
-            elif "gpt-image-2-vip" in model_lower:
-                self.widgets["image_size"].addItems(["1K", "2K", "4K"])
-                default_size = "1K"
-            elif "gpt-image-2" in model_lower:
-                self.widgets["image_size"].addItems(["1K"])
-                default_size = "1K"
-            else:
-                self.widgets["image_size"].addItems(["1K"])
-                default_size = "1K"
-
-            saved_size = str(_global_params.get("image_size", default_size)).strip()
-            available_sizes = [
-                self.widgets["image_size"].itemText(i)
-                for i in range(self.widgets["image_size"].count())
-            ]
-
-            if saved_size in available_sizes and saved_size != "":
-                self.widgets["image_size"].setCurrentText(saved_size)
-            else:
-                self.widgets["image_size"].setCurrentText(default_size)
-
-            # 绑定 image_size 变化事件
+            # 关键修复：先 disconnect，避免 clear()/addItems() 触发信号把已保存的
+            # image_size（例如 4K）覆盖成中间态（"" 或第一个 item "1K"），导致重开页面后变成 1K。
             try:
                 self.widgets["image_size"].currentTextChanged.disconnect()
             except:
                 pass
+
+            # 先把保存值读出来，再做 clear/addItems，避免被任何中间态污染
+            model_lower = model_text.lower().strip()
+
+            if model_lower in ["nano-banana-2-cl", "nano-banana-pro-vip"]:
+                size_options = ["1K", "2K"]
+                default_size = "1K"
+            elif model_lower in ["nano-banana-2-4k-cl", "nano-banana-pro-4k-vip"]:
+                size_options = ["4K"]
+                default_size = "4K"
+            elif "nano-banana" in model_lower:
+                size_options = ["1K", "2K", "4K"]
+                default_size = (
+                    "2K" if ("pro" in model_lower or "2" in model_lower) else "1K"
+                )
+            elif "gpt-image-2-vip" in model_lower:
+                size_options = ["1K", "2K", "4K"]
+                default_size = "1K"
+            elif "gpt-image-2" in model_lower:
+                size_options = ["1K"]
+                default_size = "1K"
+            else:
+                size_options = ["1K"]
+                default_size = "1K"
+
+            saved_size = str(_global_params.get("image_size", default_size)).strip()
+
+            self.widgets["image_size"].clear()
+            self.widgets["image_size"].addItems(size_options)
+
+            if saved_size in size_options and saved_size != "":
+                self.widgets["image_size"].setCurrentText(saved_size)
+                print(f"[DEBUG] image_size 成功恢复: {saved_size}")
+            else:
+                self.widgets["image_size"].setCurrentText(default_size)
+                print(
+                    f"[DEBUG] image_size 使用默认 {default_size} (保存值 '{saved_size}' 不在 {size_options})"
+                )
+
+            # 在所有 UI 操作完成后再重新绑定信号
             self.widgets["image_size"].currentTextChanged.connect(
                 lambda text: self._update_param("image_size", text)
             )
@@ -652,6 +650,10 @@ def send_grsai_draw_request(
 
     # 根据模型选择接口和 payload
     if model == "gpt-image-2" or model.startswith("gpt-image-2"):
+        # 去掉括号及其内的标注（例如 "1024x1024(1:1, 1K)" -> "1024x1024"）
+        if "(" in aspect_ratio:
+            aspect_ratio = aspect_ratio.split("(", 1)[0].strip()
+        # 如果还残留 ":"（说明是 1:1 这种纯比例），回退为 auto
         if ":" in aspect_ratio:
             aspect_ratio = "auto"
 
