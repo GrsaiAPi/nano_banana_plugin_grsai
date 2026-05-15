@@ -98,6 +98,9 @@
 https://grsai.ai/dashboard/help
 
 ## 📝 更新日志
+### v2.0.4（正式版）
+- 调整gpt-image-2-vip和gpt-image-2图片比例数值
+ 
 ### v2.0.3（正式版）
 - 优化gpt-image-2-vip图片尺寸显示文案
 - 优化配置界面关闭后分辨率充值问题
